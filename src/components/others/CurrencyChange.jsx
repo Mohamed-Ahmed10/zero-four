@@ -1,20 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Dropdown, Space, Spin, Select } from 'antd';
+import { Dropdown, Space, Spin } from 'antd';
 
 const CurrencyChange = ({ data }) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedFlag, setSelectedFlag] = useState('');
 
 
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
+    useEffect(() => {
+        if (data && data.length > 0) {
+            const firstItem = data[0];
+            setSelectedFlag(firstItem.flags?.png || '');
+        }
+    }, [data]);
+
+    const formatItems = (response) => {
+        return response.map((item, index) => {
+            const countryName = item.name.common.split(' ').slice(0, 2).join(' ');
+            return {
+                key: String(index + 1),
+                value: countryName,
+                label: (
+                    <div
+                        className="flex justify-between items-center cursor-pointer"
+                        onClick={() => handleSelect(item)}
+                    >
+                        {countryName !== 'Israel' && (
+                            <>
+                                <div className="me-2">{countryName}</div>
+                                <img width={30} src={item.flags.svg} alt={item.name.common} />
+                            </>
+                        )}
+                    </div>
+                ),
+            };
+        });
     };
-
-    const onSearch = (value) => {
-        console.log('search:', value);
-    };
-
 
     const fetchData = async () => {
         setLoading(true);
@@ -22,28 +44,10 @@ const CurrencyChange = ({ data }) => {
         const response = await new Promise((resolve) => {
             setTimeout(() => {
                 resolve(data);
-            }, 2000);
+            }, 1000);
         });
 
-        const formattedItems = response.map((item, index) => {
-            const countryName = item.name.common.split(' ').slice(0, 2).join(' ');
-            return {
-                key: String(index + 1),
-                value: countryName,
-                label: (
-                    <div className='flex justify-between'>
-                        {countryName !== 'Israel' &&
-                            <>
-                                <div className="me-2">{countryName}</div>
-                                <img width={30} src={item.flags.svg} alt={item.name.common} />
-                            </>
-                        }
-                    </div>
-                ),
-            };
-        });
-
-        setItems(formattedItems);
+        setItems(formatItems(response));
         setLoading(false);
     };
 
@@ -51,6 +55,10 @@ const CurrencyChange = ({ data }) => {
         if (visible && items.length === 0) {
             fetchData();
         }
+    };
+
+    const handleSelect = (selectedItem) => {
+        setSelectedFlag(selectedItem.flags?.png || '');
     };
 
     const menuItems = loading
@@ -72,21 +80,15 @@ const CurrencyChange = ({ data }) => {
             >
                 <a onClick={(e) => e.preventDefault()}>
                     <Space>
-                        <img className='mx-2' src="https://flagcdn.com/gb.svg" width={20} alt="Flag" />
+                        <img
+                            className="mx-2"
+                            src={selectedFlag}
+                            width={20}
+                            alt="Flag"
+                        />
                     </Space>
                 </a>
             </Dropdown>
-            {/* <Select
-                showSearch
-                placeholder="Select a person"
-                optionFilterProp="label"
-                onChange={onChange}
-                onSearch={onSearch}
-                options={menuItems.map(item => ({
-                    value: item.value,
-                    label: item.label,
-                }))}
-            /> */}
         </>
     );
 };

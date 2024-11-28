@@ -1,5 +1,5 @@
 import React from 'react'
-import CurrencyChange from '../data/CurrencyChange'
+import CurrencyChange from '../others/CurrencyChange'
 import useFetch from '../../hooks/useFetch';
 import { fetchFlags } from '../../api/apiService';
 

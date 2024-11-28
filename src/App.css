@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    background-color: #f9fcff;
+}
+
+.form_input{
+    @apply bg-dark rounded-sm border-none focus:bg-darker hover:bg-dark;
+
+
+}
+.ant-select-selector{
+    background:none !important;
+    border:none !important;
+}
+
+.form_label{
+    @apply block text-label uppercase text-xs font-semibold mb-1;
+
+
+    span{
+        @apply text-black lowercase ms-2
+    }
+}

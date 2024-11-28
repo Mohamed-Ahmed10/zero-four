@@ -6,11 +6,13 @@ export default {
   ],
   theme: {
     extend: {
-      color: {
-        bg: '#f9fcff',
+      colors: {
         linear_btn1: '#10b1f0',
         linear_btn2: '#6e81f8',
-        darker: '#f5f7f9',
+        dark: '#f5f7f9',
+        label: '#bbb6c5',
+        darker: '#e9e9e9',
+        rightBg: '#f5f7f9',
         order_review: '#0d0efe',
         discount: '#83d557',
         total: '#4f5fee'

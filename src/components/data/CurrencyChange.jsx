@@ -1,10 +1,20 @@
 import { useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Dropdown, Space, Spin } from 'antd';
+import { Dropdown, Space, Spin, Select } from 'antd';
 
 const CurrencyChange = ({ data }) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
+
+
+    const onChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+
+    const onSearch = (value) => {
+        console.log('search:', value);
+    };
+
 
     const fetchData = async () => {
         setLoading(true);
@@ -19,11 +29,12 @@ const CurrencyChange = ({ data }) => {
             const countryName = item.name.common.split(' ').slice(0, 2).join(' ');
             return {
                 key: String(index + 1),
+                value: countryName,
                 label: (
                     <div className='flex justify-between'>
                         {countryName !== 'Israel' &&
                             <>
-                                <span>{countryName}</span>
+                                <div className="me-2">{countryName}</div>
                                 <img width={30} src={item.flags.svg} alt={item.name.common} />
                             </>
                         }
@@ -65,6 +76,17 @@ const CurrencyChange = ({ data }) => {
                     </Space>
                 </a>
             </Dropdown>
+            {/* <Select
+                showSearch
+                placeholder="Select a person"
+                optionFilterProp="label"
+                onChange={onChange}
+                onSearch={onSearch}
+                options={menuItems.map(item => ({
+                    value: item.value,
+                    label: item.label,
+                }))}
+            /> */}
         </>
     );
 };

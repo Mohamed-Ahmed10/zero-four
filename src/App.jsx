@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import './App.css'
 import Header from './components/layout/Header';
-import MyForm from './components/others/Form';
+import MyForm from './components/others/registrationForm/Form';
 
 function App() {
 

@@ -73,6 +73,7 @@ const CurrencyChange = ({ data }) => {
     return (
         <>
             <Dropdown
+                showSearch
                 menu={{
                     items: menuItems,
                 }}

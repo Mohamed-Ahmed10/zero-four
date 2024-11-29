@@ -1,5 +1,5 @@
 import React from 'react'
-import CurrencyChange from '../others/CurrencyChange'
+import CurrencyChange from '../others/header/CurrencyChange'
 import useFetch from '../../hooks/useFetch';
 import { fetchFlags } from '../../api/apiService';
 
@@ -9,9 +9,11 @@ export default function Header() {
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div className="flex justify-end p-4 shadow-md">
-            All advantages
-            <CurrencyChange data={data} />
+        <div className="p-4 shadow-md">
+            <div className="w-3/4 mx-auto flex justify-end ">
+                All advantages
+                <CurrencyChange data={data} />
+            </div>
         </div>
     )
 }

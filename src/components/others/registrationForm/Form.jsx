@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Input, Radio, Space, Select, Row, Col, Typography } from 'antd';
 const { Title } = Typography;
 
-import { validationSchema } from '../../validation/validationSchema';
-import { countries, sessionOptions } from '../data/data';
-import { formInitialValue as initialValues } from '../data/data';
+import { validationSchema } from '../../../validation/validationSchema';
+import { countries, sessionOptions, formInitialValue as initialValues } from '../../../data/data';
+import { UserDataContext } from '../../../context/UserDataContext';
+
 
 // Images
-import sepa from "../../assets/sepa.png"
-import visa from "../../assets/visa&master.png"
+import sepa from "../../../assets/sepa.png"
+import visa from "../../../assets/visa&master.png"
 
 const { Option } = Select;
 
 
 const MyForm = () => {
     const [formState, setFormState] = useState({});
+    const userContext = useContext(UserDataContext)
 
     const onSubmit = (values) => {
         console.log('Form data', values);
@@ -30,11 +32,16 @@ const MyForm = () => {
         onChange,
         onInput,
     };
+
+    useEffect(() => {
+        console.log(formState)
+        userContext.setFormState(formState)
+    }, [formState])
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        // onSubmit={onSubmit}
         >
             {
                 ({ values, handleSubmit }) => {
@@ -169,7 +176,7 @@ const MyForm = () => {
                                 </div>
                                 <label className='form_label mt-5'>select payment method</label>
                                 <Field name="paymentMethod">
-                                    {({ field }) => <Radio.Group id='paymentMethod' {...field} className="form_input">
+                                    {({ field }) => <Radio.Group id='paymentMethod' {...field}>
                                         <Space direction="vertical">
                                             <Radio value="sepa">
                                                 <img src={sepa} width={60} alt="Spea" />
@@ -182,20 +189,53 @@ const MyForm = () => {
                                 </Field>
                                 {
                                     formState.paymentMethod === 'visa' &&
-                                    <>
-                                        <Field name="cardHolder">
-                                            {({ field }) => <Input {...field} id="cardHolder" placeholder='Card holder' className="form_input" />}
-                                        </Field>
-                                        <ErrorMessage name="cardHolder" component="div" className="text-red-500 text-sm" />
-                                        <Field name="cardNumber">
-                                            {({ field }) => <Input {...field} id="cardNumber" placeholder='Card number' className="form_input" />}
-                                        </Field>
-                                        <ErrorMessage name="cardNumber" component="div" className="text-red-500 text-sm" />
+                                    <Row>
+                                        <Col className='mt-4' span={24}>
+                                            <Field name="cardHolderName">
+                                                {({ field }) => <Input {...field} id="cardHolderName" placeholder='Card holder' className="form_input" />}
+                                            </Field>
+                                            <ErrorMessage name="cardHolderName" component="div" className="text-red-500 text-sm" />
+                                        </Col>
+                                        <Col className='mt-4' span={12}>
+                                            <Field name="cardNumber">
+                                                {({ field }) => <Input {...field} id="cardNumber" placeholder='Card number' className="form_input" />}
+                                            </Field>
+                                            <ErrorMessage name="cardNumber" component="div" className="text-red-500 text-sm" />
+                                        </Col>
+                                        <Col className='mt-4' span={6}>
+                                            <Field name="expirationDate">
+                                                {({ field, form }) => (
+                                                    <Input
+                                                        {...field}
+                                                        id="expirationDate"
+                                                        placeholder="MM/YY"
+                                                        className="form_input"
+                                                        maxLength={5}
+                                                        onChange={(e) => {
+                                                            const value = e.target.value.replace(/\D/g, '');
+                                                            let formattedValue = value;
 
-                                    </>
+                                                            if (value.length > 2) {
+                                                                formattedValue = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+                                                            }
+
+                                                            form.setFieldValue('expirationDate', formattedValue);
+                                                        }}
+                                                    />
+                                                )}
+                                            </Field>
+                                            <ErrorMessage name="expirationDate" component="div" className="text-red-500 text-sm" />
+                                        </Col>
+                                        <Col className='mt-4' span={6}>
+                                            <Field name="cvv">
+                                                {({ field }) => <Input {...field} id="cvv" placeholder='CVV' className="form_input" />}
+                                            </Field>
+                                            <ErrorMessage name="cvv" component="div" className="text-red-500 text-sm" />
+                                        </Col>
+                                    </Row>
                                 }
                                 {/* <Title level={5}>With custom display character</Title>
-                                <Input.OTP length={8} {...sharedProps} /> */}
+                                <Input.OTP length={3} {...sharedProps} /> */}
                             </Form>
                         </>
                     )

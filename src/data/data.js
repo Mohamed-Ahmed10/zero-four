@@ -24,10 +24,10 @@ export const formInitialValue = {
     addressNumber: '',
     postalCode: '',
     city: '',
-
     country: '',
     sessionType: '',
     paymentMethod: '',
-    cardHolder: '',
-    cardNumber: ''
+    cardHolderName: '',
+    cardNumber: '',
+    cvv: ''
 };

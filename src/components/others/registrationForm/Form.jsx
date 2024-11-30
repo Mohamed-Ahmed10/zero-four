@@ -34,7 +34,6 @@ const MyForm = () => {
     };
 
     useEffect(() => {
-        console.log(formState)
         userContext.setFormState(formState)
     }, [formState])
     return (
@@ -101,13 +100,13 @@ const MyForm = () => {
                                         Billing Address
                                     </label>
                                     <Row gutter={6}>
-                                        <Col span={18} className='px-10'>
+                                        <Col sm={18} span={24} className='px-10'>
                                             <Field name="billingAddress">
                                                 {({ field }) => <Input {...field} id="billingAddress" placeholder='Address' className="form_input" />}
                                             </Field>
                                             <ErrorMessage name="billingAddress" component="div" className="text-red-500 text-sm" />
                                         </Col>
-                                        <Col span={6} className='px-10'>
+                                        <Col sm={6} span={24} className='px-10'>
                                             <Field name="addressNumber">
                                                 {({ field }) => <Input {...field} id="addressNumber" placeholder='NR' className="form_input" />}
                                             </Field>
@@ -192,51 +191,86 @@ const MyForm = () => {
                                     <Row>
                                         <Col className='mt-4' span={24}>
                                             <Field name="cardHolderName">
-                                                {({ field }) => <Input {...field} id="cardHolderName" placeholder='Card holder' className="form_input" />}
+                                                {({ field }) => (
+                                                    <Input
+                                                        {...field}
+                                                        id="cardHolderName"
+                                                        className="form_input"
+                                                        placeholder='Card holder'
+                                                    />
+                                                )}
                                             </Field>
                                             <ErrorMessage name="cardHolderName" component="div" className="text-red-500 text-sm" />
                                         </Col>
                                         <Col className='mt-4' span={12}>
-                                            <Field name="cardNumber">
-                                                {({ field }) => <Input {...field} id="cardNumber" placeholder='Card number' className="form_input" />}
-                                            </Field>
+                                            <div className="relative">
+                                                <Field name="cardNumber">
+                                                    {({ field }) => <Input {...field} id="cardNumber" className="form_input pt-5" />}
+                                                </Field>
+                                                <div className="absolute top-1 left-0 flex pl-3 text-label items-start">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="h-4 w-4 text-label"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    >
+                                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                                    </svg>
+                                                    <span className="ml-1 text-xs">Card number</span>
+                                                </div>
+                                            </div>
+
                                             <ErrorMessage name="cardNumber" component="div" className="text-red-500 text-sm" />
                                         </Col>
                                         <Col className='mt-4' span={6}>
-                                            <Field name="expirationDate">
-                                                {({ field, form }) => (
-                                                    <Input
-                                                        {...field}
-                                                        id="expirationDate"
-                                                        placeholder="MM/YY"
-                                                        className="form_input"
-                                                        maxLength={5}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value.replace(/\D/g, '');
-                                                            let formattedValue = value;
+                                            <div className="relative">
+                                                <Field name="expirationDate">
+                                                    {({ field, form }) => (
+                                                        <Input
+                                                            {...field}
+                                                            id="expirationDate"
+                                                            className="form_input pt-5"
+                                                            maxLength={5}
+                                                            onChange={(e) => {
+                                                                const value = e.target.value.replace(/\D/g, '');
+                                                                let formattedValue = value;
 
-                                                            if (value.length > 2) {
-                                                                formattedValue = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
-                                                            }
+                                                                if (value.length > 2) {
+                                                                    formattedValue = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+                                                                }
 
-                                                            form.setFieldValue('expirationDate', formattedValue);
-                                                        }}
-                                                    />
-                                                )}
-                                            </Field>
+                                                                form.setFieldValue('expirationDate', formattedValue);
+                                                            }}
+                                                        />
+                                                    )}
+                                                </Field>
+                                                <div className="absolute top-1 left-0 flex pl-3 text-label items-start">
+                                                    <span className="text-xs">MM/YY</span>
+                                                </div>
+                                            </div>
                                             <ErrorMessage name="expirationDate" component="div" className="text-red-500 text-sm" />
                                         </Col>
                                         <Col className='mt-4' span={6}>
-                                            <Field name="cvv">
-                                                {({ field }) => <Input {...field} id="cvv" placeholder='CVV' className="form_input" />}
-                                            </Field>
+                                            <div className="relative">
+                                                <Field name="cvv">
+                                                    {({ field }) => <Input {...field} id="cvv" className="form_input pt-5" />}
+                                                </Field>
+                                                <div className="absolute top-1 left-0 flex pl-3 text-label items-start">
+                                                    <span className="text-xs">CVV</span>
+                                                </div>
+                                            </div>
                                             <ErrorMessage name="cvv" component="div" className="text-red-500 text-sm" />
                                         </Col>
                                     </Row>
                                 }
                                 {/* <Title level={5}>With custom display character</Title>
                                 <Input.OTP length={3} {...sharedProps} /> */}
-                            </Form>
+                            </Form >
                         </>
                     )
                 }

@@ -15,7 +15,8 @@ export default {
         rightBg: '#f5f7f9',
         order_review: '#0d0efe',
         discount: '#83d557',
-        total: '#4f5fee'
+        total: '#4f5fee',
+        link: '#70adfc'
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],

@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Dropdown, Space, Spin } from 'antd';
+import { CountryContext } from '../../../context/CountryContext';
 
 const CurrencyChange = ({ data }) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedFlag, setSelectedFlag] = useState('');
+    const countryContext = useContext(CountryContext)
 
 
     useEffect(() => {
@@ -59,6 +61,7 @@ const CurrencyChange = ({ data }) => {
 
     const handleSelect = (selectedItem) => {
         setSelectedFlag(selectedItem.flags?.png || '');
+        countryContext.setCountry(selectedItem.name.common)
     };
 
     const menuItems = loading

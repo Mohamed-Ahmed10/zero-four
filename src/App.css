@@ -7,7 +7,7 @@ body{
 }
 
 .form_input{
-    @apply bg-dark rounded-sm border-none focus:bg-darker hover:bg-dark;
+    @apply bg-dark rounded-sm border-none focus:bg-darker hover:bg-dark mb-3;
 
 
 }

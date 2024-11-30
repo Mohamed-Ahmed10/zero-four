@@ -14,7 +14,6 @@ export const sessionOptions = [
     { value: '36', label: '36 Months' },
 ];
 
-
 export const formInitialValue = {
     loginNumber: '',
     contactNumber: '',

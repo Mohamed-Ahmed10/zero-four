@@ -2,8 +2,9 @@ import { Row, Col, Switch, Checkbox, Button } from "antd";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserDataContext } from "../../../context/UserDataContext";
-import { sessionOptions } from "../../../data/data";
+import { formInitialValue, sessionOptions } from "../../../data/data";
 import { CountryContext } from "../../../context/CountryContext";
+import Swal from 'sweetalert2'
 
 export default function OrderCheckout() {
     const userDataContext = useContext(UserDataContext);
@@ -13,6 +14,12 @@ export default function OrderCheckout() {
 
     const currs = ["$", "€", "¢", "£"];
     const [currIndex, setCurrIndex] = useState(0);
+
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleCheckboxChange = (e) => {
+        setIsChecked(e.target.checked);
+    };
 
     useEffect(() => {
         if (country) {
@@ -39,12 +46,19 @@ export default function OrderCheckout() {
 
         try {
             const response = await axios.post("http://localhost:3000/orders", userData);
-            alert("Order saved successfully!");
             console.log("Response:", response.data);
         } catch (error) {
             console.error("Error saving data:", error);
             alert("Failed to save order.");
         }
+
+        userDataContext.setFormState(formInitialValue)
+        Swal.fire({
+            title: "Data saved successfully",
+            text: "You can see it as a JSON file",
+            icon: "success"
+        });
+        setIsChecked(false)
     };
 
     return (
@@ -92,7 +106,7 @@ export default function OrderCheckout() {
                 <div className="font-bold text-xl">{activePlan * 28} {curr}</div>
             </div>
             <div className="flex items-start gap-3">
-                <Checkbox></Checkbox>
+                <Checkbox onChange={handleCheckboxChange} checked={isChecked}></Checkbox>
                 <span className="t">
                     I accept all the <a href="#" className="text-link">terms & Conditions </a>
                     and understand my <a href="#" className="text-link">right of withdrawal</a>
@@ -100,11 +114,13 @@ export default function OrderCheckout() {
                 </span>
             </div>
             <Button
-                className="bg-gradient-to-r from-linear_btn1 to-linear_btn2 p-5 font-semibold text-white border-[#CCC] border-2 my-4 capitalize text-sm"
+                className="bg-gradient-to-r from-linear_btn1 to-linear_btn2 p-5 font-semibold text-white border-[#CCC] border-2 my-4 capitalize text-sm disabled:opacity-50"
                 block
+                type="submit"
                 onClick={saveDataToJsonServer}
+                disabled={!isChecked}
             >
-                order now
+                Order Now
             </Button>
         </div>
     );

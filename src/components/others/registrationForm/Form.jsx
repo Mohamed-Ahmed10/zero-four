@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Input, Radio, Space, Select, Row, Col, Typography } from 'antd';
 const { Title } = Typography;
@@ -18,38 +18,33 @@ const { Option } = Select;
 const MyForm = () => {
     const [formState, setFormState] = useState({});
     const userContext = useContext(UserDataContext)
+    const formRef = useRef()
 
-    const onSubmit = (values) => {
-        console.log('Form data', values);
-    };
-    const onChange = (text) => {
-        console.log('onChange:', text);
-    };
-    const onInput = (value) => {
-        console.log('onInput:', value);
-    };
-    const sharedProps = {
-        onChange,
-        onInput,
-    };
+
 
     useEffect(() => {
         userContext.setFormState(formState)
     }, [formState])
+
+    useEffect(() => {
+        if (userContext.formState === initialValues) formRef.current.reset()
+    }, [userContext.formState])
+
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-        // onSubmit={onSubmit}
+            enableReinitialize
         >
             {
-                ({ values, handleSubmit }) => {
+                ({ values }) => {
                     useEffect(() => {
                         setFormState(values);
                     }, [values]);
+
                     return (
                         <>
-                            <Form onSubmit={handleSubmit} className="space-y-4">
+                            <Form className="space-y-4" ref={formRef}>
                                 <div>
                                     <label htmlFor="loginNumber" className="form_label">
                                         Login phone number

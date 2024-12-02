@@ -47,17 +47,21 @@ export default function OrderCheckout() {
         try {
             const response = await axios.post("http://localhost:3000/orders", userData);
             console.log("Response:", response.data);
+            Swal.fire({
+                title: "Data saved successfully",
+                text: "You can see it as a JSON file",
+                icon: "success"
+            });
         } catch (error) {
             console.error("Error saving data:", error);
-            alert("Failed to save order.");
+            Swal.fire({
+                title: "Failed to save your data",
+                text: "Check your server is active",
+                icon: "error"
+            });
         }
 
         userDataContext.setFormState(formInitialValue)
-        Swal.fire({
-            title: "Data saved successfully",
-            text: "You can see it as a JSON file",
-            icon: "success"
-        });
         setIsChecked(false)
     };
 

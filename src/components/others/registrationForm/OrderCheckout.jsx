@@ -67,7 +67,7 @@ export default function OrderCheckout() {
             <Row>
                 {sessionOptions.map((option) => (
                     <Col span={8} key={option.value}>
-                        <div className={`border text-gray-500 p-4 
+                        <div className={`border text-gray-500 p-4 text-center h-full
                                 ${activePlan && activePlan === option.value && "border-order_review"}`}>
                             {option.label}
                         </div>

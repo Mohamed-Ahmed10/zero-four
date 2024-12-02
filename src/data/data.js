@@ -10,7 +10,7 @@ export const sessionOptions = [
     { value: '9', label: '9 Months' },
     { value: '12', label: '12 Months' },
     { value: '18', label: '18 Months' },
-    { value: '24', label: '24Months' },
+    { value: '24', label: '24 Months' },
     { value: '36', label: '36 Months' },
 ];
 
